@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>获取用户位置并用百度地图显示</title>
+  <script src="https://api.map.baidu.com/location/ip?ip=111.206.214.37&coor=bd09ll&ak=bRjjm1TB4AsaLBETO62X6xb1L40rkKCD"></script>
+</head>
+<body>
+  <button onclick="getLocation()">是否获取我的位置</button>
+  <div id="address"></div>
+  <script>
+    function getLocation() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lng = position.coords.longitude;
+          const lat = position.coords.latitude;
+          getAddressByBaiduMap(lng, lat);
+        });
+      } else {
+        alert("浏览器不支持地理定位");
+      }
+    }
+                        
+    function getAddressByBaiduMap(lng, lat) {
+      const point = new BMap.Point(lng, lat);
+      const geoc = new BMap.Geocoder();
+      geoc.getLocation(point, function(rs) {
+        const addComp = rs.addressComponents;
+        const address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+        document.getElementById('address').innerText = '您的位置: ' + address;
+      });
+    }
+  </script>
+</body>
+</html>
+</body>
+</html>
